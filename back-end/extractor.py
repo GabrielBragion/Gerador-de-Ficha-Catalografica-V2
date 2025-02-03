@@ -1,8 +1,9 @@
 import fitz  # PyMuPDF
+import re    # Para limpeza de quebras de linha com regex
 
 def extract_text(contents: bytes) -> dict:
     """
-    Extrai o texto da primeira página do PDF e retorna as informações estruturadas.
+    Extrai o texto da primeira página do PDF e retorna o texto limpo.
     """
     pdf_document = fitz.open(stream=contents, filetype="pdf")
     
@@ -12,59 +13,50 @@ def extract_text(contents: bytes) -> dict:
     
     # Limpa o texto e extrai as informações
     cleaned_text = clean_text(text)
-    infos = extract_info_from_text(cleaned_text)
-    
+    infos = extract_blocks(cleaned_text)
     return infos
 
 
 def clean_text(text: str) -> str:
     """
-    Remove múltiplas quebras de linha e espaços extras.
+    Remove qualquer sequência maior que dois '\n' consecutivos, mantendo apenas dois.
+    Também remove espaços em branco invisíveis e caracteres de controle.
     """
-    cleaned_text = []
-    for line in text.split("\n"):
-        line = line.strip()  # Remove espaços no início e no final da linha
-        if line:  # Ignora linhas vazias
-            cleaned_text.append(line)
-            
-    return "\n".join(cleaned_text)
+    # 1️⃣ Uniformizar quebras de linha (\r\n, \r → \n)
+    text = text.replace('\r\n', '\n').replace('\r', '\n')
+
+    # 2️⃣ Remover espaços invisíveis (como \u00A0, tabs, etc.)
+    text = re.sub(r'[ \t\u00A0]+', ' ', text)  # Substitui espaços múltiplos por um único espaço
+
+    # 3️⃣ Substituir múltiplas quebras de linha seguidas por no máximo duas
+    text = re.sub(r'(\n\s*){3,}', '\n\n', text)  # Garante no máximo duas quebras de linha consecutivas
+
+    # 4️⃣ Remover espaços extras antes ou depois das quebras de linha
+    text = re.sub(r' +\n', '\n', text)  # Remove espaços antes de \n
+    text = re.sub(r'\n +', '\n', text)  # Remove espaços após \n
+
+    return text
 
 
-def extract_info_from_text(text: str) -> dict:
+
+def extract_blocks(text: str) -> dict:
     """
-    Extrai as informações da capa do PDF com base na estrutura esperada.
+    Extrai blocos de texto separados por duas quebras de linha (\n\n).
+    Retorna um dicionário com os blocos identificados.
     """
-    infos = text.split("\n")
-    
-    # Universidade (primeira linha)
-    universidade = infos[0]
-    
-    # Curso (segunda linha)
-    curso = infos[1]
-    
-    # Nomes dos alunos (da linha 3 até um máximo de 6 linhas)
-    alunos = []
-    for i in range(2,4):  # Verifica as linhas 3 a 8 (índices 2 a 7)
-        alunos.append(infos[i])
-    
-    # Título e Subtítulo (primeira linha após os alunos)
-    titulo_index = 2 + len(alunos)  # Índice da linha após os alunos
-    
-    titulo = infos[titulo_index]
-    subtitulo = ""
-    if ":" in titulo:
-        titulo, subtitulo = map(str.strip, titulo.split(":", 1))  # Divide o título e subtítulo
-    
-    cidade = infos[-2]
-    mes_ano = infos[-1]
-    
-    # Retorna as informações em um dicionário
-    return {
-        "universidade": universidade,
-        "curso": curso,
-        "alunos": alunos,
-        "titulo": titulo,
-        "subtitulo": subtitulo,
-        "cidade": cidade,
-        "mes_ano": mes_ano,
+    # Dividir o texto em blocos usando duas quebras de linha consecutivas
+    blocks = text.strip().split("\n\n")
+
+    # Garantir que existam exatamente 4 blocos (preenche com vazio se faltar)
+    while len(blocks) < 4:
+        blocks.append("")
+
+    # Criar o dicionário com os blocos nomeados
+    result = {
+        "universidade_faculdade": blocks[0].strip(),
+        "alunos": blocks[1].strip(),
+        "titulo_trabalho": blocks[2].strip(),
+        "local_data": blocks[3].strip()
     }
+
+    return result

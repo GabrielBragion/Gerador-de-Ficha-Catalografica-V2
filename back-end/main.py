@@ -2,7 +2,7 @@ from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 
-from extractor import extract_text, clean_text
+from extractor import extract_text
 
 app = FastAPI()
 
