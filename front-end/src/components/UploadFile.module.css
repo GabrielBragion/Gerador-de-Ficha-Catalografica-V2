@@ -1,0 +1,45 @@
+.wrapper {
+	width: 100%;
+}
+.dropzone {
+	font-size: 14px;
+	padding: 16px 32px;
+	border: 2px dashed #ccc;
+	border-radius: 8px;
+	text-align: center;
+	cursor: pointer;
+	background-color: #f9f9f9;
+	transition: background-color 0.3s ease;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.dropzone.active {
+	background-color: #e3f2fd;
+	border-color: #007bff;
+}
+
+.dropzone p {
+	width: 400px;
+}
+
+.fileInput {
+	display: none; /* Oculta o input real */
+}
+
+.highlight {
+	color: #007bff;
+	font-weight: bold;
+}
+
+.fileList {
+	text-align: left;
+}
+
+.fileItem {
+	border-radius: 6px;
+	background: #e9e9e9;
+	padding: 8px 16px;
+}

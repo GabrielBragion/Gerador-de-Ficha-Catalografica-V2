@@ -1,11 +1,13 @@
-import React from 'react'
+import React from "react";
+import UploadFile from "./UploadFile";
 
 const Main = () => {
-  return (
-    <main>
-        
-    </main>
-  )
-}
 
-export default Main
+	return (
+		<main>
+			<UploadFile  />
+		</main>
+	);
+};
+
+export default Main;

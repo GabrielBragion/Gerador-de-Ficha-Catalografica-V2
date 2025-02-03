@@ -4,7 +4,6 @@
 
 
 # Frontend
-
 # Logs
 front-end/logs
 front-end/*.log
@@ -29,3 +28,5 @@ front-end/*.sln
 front-end/*.sw?
 
 # Backend
+back-end/.venv
+back-end/__pycache__
