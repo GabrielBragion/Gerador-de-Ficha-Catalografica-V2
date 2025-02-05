@@ -3,6 +3,7 @@ from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 
 from extractor import extract_text
+from formater import formater
 
 app = FastAPI()
 
@@ -25,9 +26,13 @@ async def upload_file(file: UploadFile = File(...)):
         # Lê o arquivo em memória
         contents = await file.read()
         
+        # Extrai informações do PDF
         infos = extract_text(contents)
         
-        return JSONResponse(content={"infos": infos})
+        # Formata as informações
+        infos_formated = formater(infos)        
+        
+        return JSONResponse(content=infos_formated)
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erro ao processar o arquivo: {str(e)}")

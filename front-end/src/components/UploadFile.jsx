@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import styles from "./UploadFile.module.css";
 import Button from "./Button"; // Importa o botão
+import { useGlobalContext } from "../context/GlobalContext"; // Importa o hook personalizado
 
 const UploadFile = () => {
 	const [file, setFile] = useState(null); // Alterei para armazenar um único arquivo
@@ -8,6 +9,7 @@ const UploadFile = () => {
 	const [loading, setLoading] = useState(false);
 	const [dragActive, setDragActive] = useState(false); // Novo estado para drag
 	const fileInputRef = useRef(null);
+	const { setGlobalData } = useGlobalContext();
 
 	// Manipula arquivos adicionados
 	const handleFile = (file) => {
@@ -40,7 +42,7 @@ const UploadFile = () => {
 		setLoading(true);
 
 		try {
-			const response = await fetch("http://127.0.0.1:8000/upload", {
+			const response = await fetch("http://127.0.0.1:8001/upload", {
 				method: "POST",
 				body: formData,
 			});
@@ -50,8 +52,7 @@ const UploadFile = () => {
 
 			if (response.ok) {
 				const data = await response.json();
-				alert("Arquivo enviado com sucesso! 🎉");
-				console.log("Resposta do backend:", data);
+				setGlobalData(data); // Atualiza o estado global
 			} else {
 				alert("Erro ao enviar arquivo.");
 			}

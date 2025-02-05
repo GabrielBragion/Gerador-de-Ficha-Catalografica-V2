@@ -37,12 +37,22 @@ def extract_text(contents: bytes) -> dict:
 
     # Extrair palavras-chave
     palavras_chave = extract_palavras_chave(text_other_pages)
+    
+    # Oganiza melhor a data e local
+    local_data = infos_first_page.get('local_data', [])
+    ano = local_data[-1].split("/")[-1]
+    cidade = local_data[0].split(" ")[0]
+    estado = local_data[0].split(" ")[-1]
 
     # Consolidar informações
     infos_first_page.update({
         "tipo_trabalho": tipo_trabalho,
         "orientadores": orientadores,
-        "palavras_chave": palavras_chave
+        "palavras_chave": palavras_chave,
+        "ano": ano,
+        "cidade": cidade,
+        "estado": estado,
+        "total_paginas": pdf_document.page_count
     })
 
     infos = infos_first_page
@@ -112,11 +122,9 @@ def extract_palavras_chave(text: str) -> list:
         palavras_chave = re.split(r'[;,]', palavras_chave_texto)
         
         # Remove espaços extras e o ponto final no final das palavras-chave
-        palavras_chave = [palavra.strip().rstrip('.') for palavra in palavras_chave if palavra.strip()]
+        palavras_chave = [palavra.replace("  "," ").strip().rstrip('.') for palavra in palavras_chave if palavra.strip()]
         
         return palavras_chave
     
     # Caso não encontre as palavras-chave, retorna uma lista vazia
     return []
-
-
