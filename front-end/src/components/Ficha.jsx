@@ -49,7 +49,7 @@ const Ficha = () => {
 				{globalData.ano}.
 			</p>
 			<p className={styles.textIndent}>
-				{globalData.palavras_chave.map((palavra, idx) => idx + 1 + ". " + palavra).join(". ")}{" "}
+				{globalData.palavras_chave.map((palavra, idx) => idx + 1 + ". " + palavra).join(". ")}{". "}
 				{listaNumerosRomanos.map((item, idx) => romanNumerals[idx] + ". " + item).join(". ")}.
 			</p>
 		</div>

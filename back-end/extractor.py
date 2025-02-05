@@ -3,8 +3,9 @@ import re    # Para limpeza de quebras de linha com regex
 
 TIPOS_DE_DOCUMENTO = {
     "TCC": "Trabalho de Conclusão de Curso",
-    "Dissertação": "Dissertação de Mestrado",
-    "Tese": "Tese de Doutorado"
+    "Dissertação": "Dissertação",
+    "Dissertação (Mestrado)": "Dissertação de Mestrado",
+    "Tese (Doutorado)": "Tese de Doutorado"
 }
 
 def extract_text(contents: bytes) -> dict:
@@ -92,7 +93,7 @@ def extract_tipo_trabalho(text: str) -> str:
     for key, value in TIPOS_DE_DOCUMENTO.items():
         if re.search(rf'\b{re.escape(key)}\b', text, re.IGNORECASE) or \
            re.search(rf'\b{re.escape(value)}\b', text, re.IGNORECASE):
-            return value
+            return key
     return "Desconhecido"
 
 def extract_orientadores(text: str) -> dict:

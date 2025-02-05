@@ -1,0 +1,8 @@
+LISTA DE COISAS PARA FAZER:
+
+- extrair titulo do orientador/coorientador
+- tratar das variações de sobrenome na inversão
+- criar formulario para inserção manual das informações
+- implementar gerador de pdf
+- estilos
+- refatorar tudo (python POO e etc)
