@@ -12,17 +12,15 @@ A ficha catalográfica é um elemento obrigatório em trabalhos acadêmicos, com
 
 O Gerador de Ficha Catalográfica é uma aplicação web composta por duas camadas principais:
 
-1. Frontend
-
-- Desenvolvido em React, o frontend é responsável por:
+### Frontend
+Desenvolvido em React, o frontend é responsável por:
 - Interface de usuário intuitiva para inserção manual de dados.
 - Upload de documentos para extração automática de informações.
 - Envio de dados para o backend para processamento.
 - Exibição do resultado final com opção de download do PDF gerado.
 
-2. Backend
-
-- Implementado em Python utilizando o framework FastAPI, o backend é responsável por:
+### Backend
+Implementado em Python utilizando o framework FastAPI, o backend é responsável por:
 - Processamento dos dados recebidos do frontend.
 - Extração automática de informações relevantes dos documentos enviados.
 - Aplicação de regras de formatação conforme padrões bibliográficos.
@@ -41,3 +39,9 @@ O Gerador de Ficha Catalográfica é uma aplicação web composta por duas camad
 ### Link para primeira versão
 
 [gerador v1.0](https://unisantabiblioteca.github.io/Gerador-Ficha-Catalografica/)
+
+* Primeiro
+* Segundo
+    * Segundo.1
+    * Segundo.2
+* Terceiro
