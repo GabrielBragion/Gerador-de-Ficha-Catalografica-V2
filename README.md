@@ -39,9 +39,3 @@ Implementado em Python utilizando o framework FastAPI, o backend é responsável
 ### Link para primeira versão
 
 [gerador v1.0](https://unisantabiblioteca.github.io/Gerador-Ficha-Catalografica/)
-
-* Primeiro
-* Segundo
-    * Segundo.1
-    * Segundo.2
-* Terceiro
